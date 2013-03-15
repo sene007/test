@@ -23,4 +23,14 @@
         android:layout_marginTop="152dp"
         android:text="Slikaj račun" />
 
+    <Button
+        android:id="@+id/but_webForm"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/but_takePicture"
+        android:layout_marginTop="56dp"
+        android:layout_toLeftOf="@+id/but_takePicture"
+        android:text="Web provjera" />
+
 </RelativeLayout>

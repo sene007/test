@@ -11,6 +11,7 @@ import android.widget.Button;
 public class FiscalMainActivity extends Activity implements OnClickListener {
 	private Button but_takePic = null;
 	private Button but_webForm = null;
+	private Button but_history = null;
 	
 	
 	@Override
@@ -43,6 +44,9 @@ public class FiscalMainActivity extends Activity implements OnClickListener {
 		
 		this.but_webForm = (Button) findViewById(R.id.but_webForm);
 		but_webForm.setOnClickListener(this);
+		
+		this.but_history = (Button) findViewById(R.id.but_webFormHistory);
+		but_history.setOnClickListener(this);
 	}
 	
 	
@@ -59,8 +63,7 @@ public class FiscalMainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		
-		if (view.getId() == this.but_takePic.getId()){
+		if (view == this.but_takePic){
 			//call take picture activity
 			Intent pictureIntent = new Intent ("hr.mamateam.fiscalbillchecker.PICTURE");
 			startActivity(pictureIntent);
@@ -72,6 +75,10 @@ public class FiscalMainActivity extends Activity implements OnClickListener {
 			startActivity(webFormIntent);
 		}
 		
+		if (view == this.but_history){
+			Intent webFormHistoryIntent = new Intent ("hr.mamateam.fiscalbillchecker.HISTORY");
+			startActivity(webFormHistoryIntent);
+		}
 		
 	}
 	

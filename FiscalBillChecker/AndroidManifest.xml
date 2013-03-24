@@ -9,7 +9,7 @@
         android:targetSdkVersion="8" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -43,6 +43,15 @@
             android:label="@string/title_activity_check_bill_web" >
             <intent-filter>
                 <action android:name="hr.mamateam.fiscalbillchecker.WEB" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="hr.mamateam.fiscalbillchecker.FiscalBillHistory"
+            android:label="@string/title_activity_fiscal_bill_history" >
+            <intent-filter>
+                <action android:name="hr.mamateam.fiscalbillchecker.HISTORY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

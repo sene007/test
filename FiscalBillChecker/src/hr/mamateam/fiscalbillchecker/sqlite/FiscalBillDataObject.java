@@ -1,7 +1,8 @@
-package hr.mamateam.fiscalbillchecker;
+package hr.mamateam.fiscalbillchecker.sqlite;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 
@@ -9,13 +10,16 @@ import android.graphics.Bitmap;
  * Data object representing web form data.
  * @author Black
  */
-public class WebFormDataObject {
+public class FiscalBillDataObject {
+	private Integer ID = null;
 	private String JIR = null;
+	private ArrayList<String> JIRList = null;
 	private String code = null;
 	private Date billDate = null;
 	private Integer billHour = null;
 	private Integer billMinute = null;
-	private BigDecimal billAmount = null;
+	private BigDecimal billAmountKn = null;
+	private BigDecimal billAmountLp = null;
 	private Bitmap captcha = null;
 	
 	//Additional data
@@ -24,11 +28,23 @@ public class WebFormDataObject {
 	
 	
 	
+	public Integer getID() {
+		return ID;
+	}
+	public void setID(Integer iD) {
+		ID = iD;
+	}
 	public String getJIR() {
 		return JIR;
 	}
 	public void setJIR(String jIR) {
 		JIR = jIR;
+	}
+	public ArrayList<String> getJIRList() {
+		return JIRList;
+	}
+	public void setJIRList(ArrayList<String> jIRList) {
+		JIRList = jIRList;
 	}
 	public String getCode() {
 		return code;
@@ -54,11 +70,17 @@ public class WebFormDataObject {
 	public void setBillMinute(Integer billMinute) {
 		this.billMinute = billMinute;
 	}
-	public BigDecimal getBillAmount() {
-		return billAmount;
+	public BigDecimal getBillAmountKn() {
+		return billAmountKn;
 	}
-	public void setBillAmount(BigDecimal billAmount) {
-		this.billAmount = billAmount;
+	public void setBillAmountKn(BigDecimal billAmountKn) {
+		this.billAmountKn = billAmountKn;
+	}
+	public BigDecimal getBillAmountLp() {
+		return billAmountLp;
+	}
+	public void setBillAmountLp(BigDecimal billAmountLp) {
+		this.billAmountLp = billAmountLp;
 	}
 	public Bitmap getCaptcha() {
 		return captcha;
@@ -83,7 +105,7 @@ public class WebFormDataObject {
 		else return true;
 	}
 	
-	public String toString (){
+	public String printValues (){
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n-----------------");
 		sb.append("\nJIR = "+getJIR());
@@ -91,13 +113,20 @@ public class WebFormDataObject {
 		sb.append("\nbillDate = "+getBillDate());
 		sb.append("\nbillHour = "+getBillHour());
 		sb.append("\nbillMinute = "+getBillMinute());
-		sb.append("\nbillAmount = "+getBillAmount());
+		sb.append("\nbillAmountKn = "+getBillAmountKn());
+		sb.append("\nbillAmountLp = "+getBillAmountLp());
 		sb.append("\nisCaptchaSet = " + isCaptchaSet());
 		sb.append("\nbillCheckStatus = "+getBillCheckStatus());
 		sb.append("\nbillStatus = "+getBillStatus());
 		sb.append("\n-----------------");
 		
 		return sb.toString();
+	}
+	
+	public String toString (){
+		
+		
+		return "";  //TODO
 	}
 	
 	

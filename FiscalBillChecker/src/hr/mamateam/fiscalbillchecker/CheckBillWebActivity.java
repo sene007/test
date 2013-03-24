@@ -1,19 +1,26 @@
 package hr.mamateam.fiscalbillchecker;
 
+import hr.mamateam.fiscalbillchecker.sqlite.FiscalBillDataObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.CharBuffer;
+import java.sql.Date;
+
+import org.apache.http.util.EncodingUtils;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.Menu;
 import android.webkit.WebSettings;
@@ -21,11 +28,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class CheckBillWebActivity extends Activity {
+	private final String URL = "http://www.provjeri-racun.hr/provjeraracuna";
+	private WebView browser = null;
+	private FiscalUtil util = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_check_bill_web);
+		this.util = new FiscalUtil(this);
 		
 		initComponents();
 	}
@@ -46,23 +57,82 @@ public class CheckBillWebActivity extends Activity {
 			this.finish(); //exit activity
 		}
 		
-		WebView mywebview = (WebView) findViewById(R.id.webview);
-		WebSettings webSettings = mywebview.getSettings();
+		
+		browser = (WebView) findViewById(R.id.webview);
+		WebSettings webSettings = browser.getSettings();
 		webSettings.setJavaScriptEnabled(true);  //enable javaScript
 		webSettings.setBuiltInZoomControls(true);
 		
-		mywebview.setWebViewClient(new MyWebViewClient()); //disable loading default browser
-		mywebview.loadUrl("http://www.provjeri-racun.hr/provjeraracuna"); //load page
+		browser.setWebViewClient(new MyWebViewClient()); //disable loading default browser
+		browser.loadUrl(URL); //load page
+		browser.addJavascriptInterface(new MyJavaScriptInterface(this), "BillWebForm");
+		
+		
+	}
+	
+	private class MyJavaScriptInterface {
+		private Context con = null;
+		
+		/**
+		 * Default constructor
+		 */
+		public MyJavaScriptInterface() {}
+		
+		public MyJavaScriptInterface(Context con) {
+			this.con = con;
+		}
+		
+		//TODO usefull methods for maintaining javascript functions
 		
 	}
 	
 	private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        return false;
+        	return false;
         }
         
-        /**
+        
+
+		@Override
+		public void onPageFinished(WebView view, String url) {
+//			super.onPageFinished(view, url);
+			
+//			browser.loadUrl("javascript:(function() { " +  
+//                    "document.getElementById('vrijeme_sat').value = '12';" +
+//                    "document.getElementById('datum').value = '18.03.2013';" +
+//                    "document.getElementById('iznos_kn').value = '52';" +
+//                    //"document.forms['form'].submit();" + //Doesn't Work
+//                    //"document.getElementById('loginButton').click();" + //Doesn't Work
+//                  "})()");
+			
+			setDataForTest();
+			
+			String temp = util.getWebFormWithValuesJavascript();
+			browser.loadUrl(temp);
+			String temp2 = "";
+			
+		}
+
+		
+		private void setDataForTest(){
+			FiscalBillDataObject webForm = new FiscalBillDataObject();
+			webForm.setJIR("8858db0c-f30e-4ef4-8928-18423f27a2cd");
+			webForm.setCode("7abdf8ca62444261b5bf5cfc1dd3fb5");
+			webForm.setCode("7abdf8ca62444261b5bf5cfc1dd3fb5");
+			webForm.setBillDate(Date.valueOf("2013-03-16"));
+			webForm.setBillHour(16);
+			webForm.setBillMinute(42);
+			webForm.setBillAmountKn(new BigDecimal(68));
+			webForm.setBillAmountLp(new BigDecimal(35));
+			
+			util.setWebFormDataObject(webForm);
+		}
+
+
+
+
+		/**
 		 * Method checks if System is connected to the Net.
 		 * @return
 		 */

@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_fiscal_picture">FiscalPictureActivity</string>
     <string name="title_activity_check_bill_web">CheckBillWebActivity</string>
+    <string name="title_activity_fiscal_bill_history">FiscalBillHistory</string>
 
 </resources>
